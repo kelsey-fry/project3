@@ -1,0 +1,426 @@
+<! DOCTYPE html>
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>JOMC 586 Project 3</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<link href='http://fonts.googleapis.com/css?family=Roboto:900' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="http://code.highcharts.com/maps/modules/map.js"></script>
+	<script src="http://code.highcharts.com/maps/modules/data.js"></script>
+    <script src="http://code.highcharts.com/mapdata/countries/us/us-all.js"></script>
+
+	<!-- DataTables CSS -->
+	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.6/css/jquery.dataTables.css">
+	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/1.0.5/css/dataTables.responsive.css">
+	<link rel="stylesheet" type="text/css" href="css/datatablesstyles.css">
+	<!-- DataTables JS -->
+	<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.js"></script>
+	<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/responsive/1.0.5/js/dataTables.responsive.js"></script>
+	
+	<script type="text/javascript" src="/js/map1.js"></script>
+	
+
+	<script>
+        
+       $(function () {
+    
+	
+		Highcharts.getOptions().plotOptions.pie.colors = (function () {
+        var colors = ['#356b88','#59818c','#88a1a8','#e0e4e5', 'aliceblue', 'gainsboro'],
+            base = Highcharts.getOptions().colors[0],
+            i;
+
+        for (i = 0; i < 10; i += 1) {
+            // Start out with a darkened base color (negative brighten), and end
+            // up with a much brighter color
+            colors.push(Highcharts.Color(base).brighten((i - 3) / 7).get());
+        }
+        return colors;
+    }());
+$('#pie-chart').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+				style: {
+				fontFamily: "'Roboto', sans-serif"
+				},
+        },
+        title: {
+            text: 'Weather Conditions During Rail Accidents, 2014'
+        },
+		credits: {
+                enabled: false
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+                name: 'Weather',
+                data: [
+                    ['Clear',   65.6601],
+                    ['Cloudy',       23.5979],
+                    ['Rainy',    6.98888],
+                    ['Foggy',     1.1217],
+                    ['Sleeting',   0.2157],
+					['Snowy',	2.4159]
+            ]
+        }]
+    });
+
+$('#visibility').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+				style: {
+				fontFamily: "'Roboto', sans-serif"
+				
+				},
+        },
+        title: {
+            text: 'Time of Day and Visibility'
+        },
+		credits: {
+                enabled: false
+        },
+        tooltip: {
+            
+			pointFormat: '<b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+                name: 'Time of Day',
+                data: [
+                    ['Day',   43.05436],
+                    ['Night',       38.956],
+                    ['Dusk',    10.09491],
+                    ['Dawn',     7.894737]
+            ]
+        }]
+    });
+});
+
+$(document).ready(function() {
+    $('#example').dataTable( {
+        "paging":   false,
+        "ordering": false,
+        "info":     false,
+		"searching": false
+    } );
+	$('#allData').dataTable( {
+  "ajax": {
+    "url": "/json/dataset.json",
+    "dataSrc": ""
+  }
+} );
+
+
+		
+} );
+
+
+    </script>
+	
+	<script>
+  function toggleVisibility(summaryIcon, exampleElement){
+    var icon = document.getElementById(icon);   // Get the icon
+    var example = document.getElementById(exampleElement); // Get element to show/hide
+
+    if (example.style.display == "none"){  // Is the element hidden?
+      example.style.display = "block"; // If yes, then show it
+	  icon.className = "fa fa-angle-double-up";
+    }
+    else {  // Element is showing, so hide it
+      example.style.display = "none";
+      icon.className = "fa fa-angle-double-down";
+	  
+    }
+  }
+  
+
+</script>
+</head>
+
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">
+        <img alt="The Washington Post" src="/images/thewashingtonpost.png">
+      </a>
+	  
+    </div>
+  </div>
+</nav>
+<div class="main-content">
+<!-- <div class="row"> -->
+<div class="section-name col-md-12">
+<a href="#" class="section-name">National</a>
+</div>
+
+<div class="title col-md-12">
+<div>
+<h1> A Closer Look: U.S. Rail Equipment Incidents/Accidents, 2014
+</h1>
+</div>
+</div>
+<div class="social-media col-md-12"
+	<div class="btn-group btn-group-lg" role="group">
+		<a href="#" type="button" class="facebook btn btn-default">
+		<span class="fa fa-facebook-official fa-lg soc-color"></span>
+		</a>
+		<a href="#" type="button" class="twitter btn btn-default">
+		<span class="fa fa-twitter fa-lg soc-color"></span>
+		</a>
+		<a href="#" type="button" class="googleplus btn btn-default">
+		<span class="fa fa-google-plus fa-lg soc-color"></span>
+		</a>
+		<a href="#" type="button" class="email btn btn-default">
+		<span class="fa fa-envelope fa-lg soc-color"></span>
+		</a>
+		<a href="#" type="button" class="extra btn btn-default">
+		<span class="fa fa-plus fa-lg soc-color"></span>
+		</a>
+
+</div>
+
+<div class="row byline col-md-12">
+By <a href="#" class="author">Kelsey Fry</a> <span class="article-date"> April 5, 2015</span> <a href="#" class="email-author"><span class="fa fa-envelope"></span></a>
+</div>
+
+<div class="row">
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12">
+						Does the weather really affect the number of train accidents?  How about the time of day?  2318 railway incidents from the year 2014 are depicted in the pie charts below.  Just as many (actually slightly <em>more</em>) accidents happen during the day as at night.  And nearly two-thirds of the incidents occurred during clear conditions.  It seems that the weather and/or time of day are not contributing factors in these incidents.
+						</br>
+						</br>
+						</div>
+				</div>
+				<div class="row analysis">
+				
+					<div class="col-md-6 left-chart">
+						<div class="row">
+						<div id="visibility" style="width: 100%; height:400px;"></div>
+						<div id="analysis" style="text-align:center"><span class="highlight">Just as many</span> accidents happen during the <span class="highlight">day</span> as at night.</div>
+						</div>
+					</div>
+		
+					<div class="col-md-6">
+						<div class="row">
+						<div id="pie-chart" style="width: 100%; height:400px;"></div>
+						</div>
+						<div class="row" style="text-align:center">
+						Roughly <span class="highlight">2/3</span> of the accidents happened during <span class="highlight">clear</span> weather.
+					</div>
+					</div>
+				</div>
+				
+			</div>
+</div>
+
+<div class="row col-md-12 geography">
+Where are these incidents occurring?  Check out the interactive map below to see how many accidents happened in each state, plus the District of Columbia, in 2014.
+<div id="maps" style="width:100%; height:400px;"></div>
+</div>
+
+<div class="row col-md-12 money">
+How much do these accidents cost?  Here are the 10 most expensive accidents, by total damage, in 2014:
+<div class="row">
+<div onclick="toggleVisibility('icon', 'example')">
+  <span id="icon" class="fa fa-angle-double-down"></span> (<b>Click to expand/collapse)</b></div>
+ <table id="example" class="display" cellspacing="0" width="100%" style="display:none">
+        <thead>
+            <tr>
+                <th>Incident #</th>
+				<th>Damages</th>
+                <th>Date</th>
+                <th>Weather</th>
+                <th>Time of Day</th>
+                <th>Gross Tonnage</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+ 
+        
+ 
+         <tbody>
+            <tr>
+                <td>0814Lk013</td>
+				<td>$6.18 M</td>
+                <td>8/17</td>
+                <td>Clear</td>
+                <td>2:28 AM</td>
+                <td>9478</td>
+                <td>Freight train</td>
+            </tr>
+			
+			<tr>
+                <td>KC0614101</td>
+				<td>$4.88 M</td>
+                <td>6/1</td>
+                <td>Rain</td>
+                <td>11:10 PM</td>
+                <td>8451</td>
+                <td>Freight train</td>
+            </tr>
+			
+			<tr>
+                <td>0214SA011</td>
+				<td>$4.41 M</td>
+                <td>2/16</td>
+                <td>Cloudy</td>
+                <td>1:12 AM</td>
+                <td>17966</td>
+                <td>Freight train</td>
+            </tr>
+			
+			<tr>
+                <td>085789</td>
+				<td>$4.08 M</td>
+                <td>2/24</td>
+                <td>Clear</td>
+                <td>6:17 PM</td>
+                <td>11138</td>
+                <td>Freight train</td>
+            </tr>
+			
+			<tr>
+                <td>0914KC012</td>
+				<td>$3.67 M</td>
+                <td>9/25</td>
+                <td>Clear</td>
+                <td>5:44 AM</td>
+                <td>7898</td>
+                <td>Freight train</td>
+            </tr>
+			
+			<tr>
+                <td>1014LK008</td>
+				<td>$3.33 M</td>
+                <td>10/5</td>
+                <td>Clear</td>
+                <td>1:10 PM</td>
+                <td>9478</td>
+                <td>Yard/Switching</td>
+            </tr>
+			
+			<tr>
+                <td>820595</td>
+				<td>$3.18 M</td>
+                <td>7/20</td>
+                <td>Clear</td>
+                <td>8:34 PM</td>
+                <td>10549</td>
+                <td>Work train</td>
+            </tr>
+			
+			<tr>
+                <td>0914DV019</td>
+				<td>$3.01 M</td>
+                <td>9/21</td>
+                <td>Clear</td>
+                <td>2:30 AM</td>
+                <td>14445</td>
+                <td>Freight train</td>
+            </tr>
+			
+			<tr>
+                <td>TC0514104</td>
+				<td>$2.89 M</td>
+                <td>5/11</td>
+                <td>Rain</td>
+                <td>11:05 PM</td>
+                <td>17262</td>
+                <td>Freight train</td>
+            </tr>
+			
+			<tr>
+                <td>CH0414106</td>
+				<td>$2.80 M</td>
+                <td>4/28</td>
+                <td>Rain</td>
+                <td>4:50 PM</td>
+                <td>4815</td>
+                <td>Freight train</td>
+            </tr>
+			
+</tbody>
+    </table>
+</div>	
+</div>
+
+
+<div class="row col-md-12 dataset">
+Care to search the rest of the dataset?  (Want to see more information about the expensive accidents above? Just search using the incident number!)
+<div>
+<table id="allData" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>Incident #</th>
+            <th>Month</th>
+			<th>Day</th>
+			<th>Hour</th>
+			<th>Minute</th>
+			<th>AM/PM</th>
+			<th>City</th>
+			<th>Tonnage</th>
+			<th>Total Damages (in $)</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+    </tbody>
+</table>
+</div>
+</div>
+
+
+<div class="row col-md-12">
+<footer style="text-align: right">
+All data from the Federal Railroad Administration, <a href="http://safetydata.fra.dot.gov/OfficeofSafety/publicsite/on_the_fly_download.aspx">"Accident Data on Demand"</a>.</br>
+(Select: Rail Equipment Accidents, Year 2014, All Reporting Levels, All States, Output as Excel, Uncompressed.)
+</footer>
+
+</div>
+
+</body>
+</html>
