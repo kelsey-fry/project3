@@ -9,12 +9,10 @@ padding-top: -5px;
 h1{
 font-family: 'Roboto', sans-serif;
 font-size: 46;
-/* font-size: 2.875em; */
 color: #2a2a2a;}
 
 body {
 font-family: 'Lora', serif;
-/* font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif; */
 font-size: 18;
 }
 
@@ -133,6 +131,10 @@ margin-right: 5px;
 color: #2e6d9d;
 }
 
+.intro {
+border-bottom: solid #eeeeee 2px;
+}
+
 .chart-titles {
 font-family: 'Roboto', sans-serif;
 }
@@ -142,31 +144,32 @@ font-family: 'Roboto', sans-serif;
 font-size: 25;
 color: darkslategray;
 border-bottom: solid #eeeeee 2px;
-padding-bottom: 25px;
-padding-left: 1%;
-padding-right: 1%;
+padding-left: 2%;
+padding-right: 2%;
 }
 
 .highlight {
 font-family: 'Roboto', sans-serif;
-font-size: 45;
+font-size: 35;
 color: #dc4247;
 }
 
-.left-chart {
-border-right: solid #eeeeee 2px;
+.visibility {
+padding-top: 10px;
+border-top: solid #eeeeee 2px;
 }
 
 .geography, .money, .dataset{
-padding-top: 20px;
+padding-top: 5px;
 border-bottom: solid #eeeeee 2px;
-padding-bottom: 20px;
+padding-bottom: 5px;
 }
 
 #icon {
 color: #dc4247;
 margin-left: 10px;
 }
+
 .table_id {
 padding-top: 20px;
 }
@@ -176,4 +179,27 @@ font-size: 13px;
 float: right;
 padding-top: 40px;
 padding-bottom: 20px;
+}
+
+@media screen and (min-width:1000px){
+.intro {
+border-bottom: none;
+}
+.left-chart {
+border-right: solid #eeeeee 2px;
+}
+
+.analysis {
+padding-bottom: 25px;
+}
+
+.geography, .money, .dataset{
+padding-top: 20px;
+padding-bottom: 20px;
+}
+
+.pie-chart, .visibility {
+border-bottom: none;
+border-top: none;
+}
 }
